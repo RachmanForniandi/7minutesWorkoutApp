@@ -46,10 +46,13 @@ class ExerciseActivity : AppCompatActivity() {
         binding?.tvExerciseName?.visibility = View.INVISIBLE
         binding?.flExerciseView?.visibility = View.INVISIBLE
         binding?.imgExerciseMove?.visibility = View.INVISIBLE
+        binding?.tvUpcomingLabel?.visibility = View.VISIBLE
+        binding?.tvUpcomingExerciseName?.visibility = View.VISIBLE
         if (restTimer != null){
             restTimer?.cancel()
             restProgress =0
         }
+        binding?.tvUpcomingExerciseName?.text = exerciseList!![currentExercisePosition+1].getName()
 
         setRestProgressBar()
     }
@@ -60,6 +63,8 @@ class ExerciseActivity : AppCompatActivity() {
         binding?.tvExerciseName?.visibility = View.VISIBLE
         binding?.flExerciseView?.visibility = View.VISIBLE
         binding?.imgExerciseMove?.visibility = View.VISIBLE
+        binding?.tvUpcomingLabel?.visibility = View.INVISIBLE
+        binding?.tvUpcomingExerciseName?.visibility = View.INVISIBLE
         if (exerciseTimer != null){
             exerciseTimer?.cancel()
             exerciseProgress =0
@@ -74,7 +79,7 @@ class ExerciseActivity : AppCompatActivity() {
     private fun setExerciseProgressBar(){
         binding?.pg2?.progress = exerciseProgress
 
-        exerciseTimer = object :CountDownTimer(30000,1000){
+        exerciseTimer = object :CountDownTimer(3000,1000){
             override fun onTick(p0: Long) {
                 exerciseProgress++
                 binding?.pg2?.progress = 30 - exerciseProgress
