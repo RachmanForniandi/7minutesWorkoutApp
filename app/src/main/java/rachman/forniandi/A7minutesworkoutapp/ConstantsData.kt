@@ -38,7 +38,7 @@ object ConstantsData {
             false,
             false
         )
-        exerciseList.add(jumpingJacks)
+        exerciseList.add(abdominalCrunch)
 
 
         val stepUpOnChair = ExerciseModel(
@@ -48,7 +48,7 @@ object ConstantsData {
             false,
             false
         )
-        exerciseList.add(jumpingJacks)
+        exerciseList.add(stepUpOnChair)
 
         val squat = ExerciseModel(
             6,
@@ -57,7 +57,7 @@ object ConstantsData {
             false,
             false
         )
-        exerciseList.add(jumpingJacks)
+        exerciseList.add(squat)
 
         val tricepDipOnChair =
             ExerciseModel(
@@ -81,10 +81,14 @@ object ConstantsData {
             )
         exerciseList.add(highKneesRunningInPlace)
 
-        val lunges = ExerciseModel(10, "Lunges", R.drawable.ic_lunge, false, false)
+        val lunges = ExerciseModel(10,
+            "Lunges",
+            R.drawable.ic_lunge,
+            false,
+            false)
         exerciseList.add(lunges)
 
-        val pushupAndRotation =
+        val pushUpAndRotation =
             ExerciseModel(
                 11,
                 "Push up and Rotation",
@@ -92,9 +96,13 @@ object ConstantsData {
                 false,
                 false
             )
-        exerciseList.add(pushupAndRotation)
+        exerciseList.add(pushUpAndRotation)
 
-        val sidePlank = ExerciseModel(12, "Side Plank", R.drawable.ic_side_plank, false, false)
+        val sidePlank = ExerciseModel(12,
+            "Side Plank",
+            R.drawable.ic_side_plank,
+            false,
+            false)
         exerciseList.add(sidePlank)
 
         return exerciseList
