@@ -1,5 +1,6 @@
 package rachman.forniandi.A7minutesworkoutapp
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var exerciseTimer:CountDownTimer? = null
     private var exerciseProgress=0
-
+    private var exerciseTimerDuration:Long=10
     private var exerciseList:ArrayList<ExerciseModel>? = null
     private var currentExercisePosition = -1
     private var tts:TextToSpeech? =null
@@ -111,26 +112,29 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun setExerciseProgressBar(){
         binding?.pg2?.progress = exerciseProgress
 
-        exerciseTimer = object :CountDownTimer(30000,1000){
+        exerciseTimer = object :CountDownTimer(exerciseTimerDuration*1000,1000){
             override fun onTick(p0: Long) {
                 exerciseProgress++
-                binding?.pg2?.progress = 30 - exerciseProgress
-                binding?.tvTimerExercise?.text = (30 - exerciseProgress).toString()
+                binding?.pg2?.progress = exerciseTimerDuration.toInt() - exerciseProgress
+                binding?.tvTimerExercise?.text = (exerciseTimerDuration.toInt() - exerciseProgress).toString()
             }
 
             override fun onFinish() {
                 /*Toast.makeText(this@ExerciseActivity,"30 seconds are over.Let's rest !!",
                     Toast.LENGTH_SHORT).show()
 */
-                exerciseList!![currentExercisePosition].setIsSelected(false)
-                exerciseList!![currentExercisePosition].setIsCompleted(true)
-                exerciseAdapter?.notifyDataSetChanged()
-
                 if (currentExercisePosition < exerciseList!!.size -1){
+                    exerciseList!![currentExercisePosition].setIsSelected(false)
+                    exerciseList!![currentExercisePosition].setIsCompleted(true)
+                    exerciseAdapter?.notifyDataSetChanged()
                     setupRestView()
                 }else{
-                    Toast.makeText(this@ExerciseActivity,"Congratulations ! You have completed the 7 minutes workout !!",
-                        Toast.LENGTH_SHORT).show()
+                    /*Toast.makeText(this@ExerciseActivity,"Congratulations ! You have completed the 7 minutes workout !!",
+                        Toast.LENGTH_SHORT).show()*/
+                    finish()
+                    val intentToFinish = Intent(this@ExerciseActivity,FinishActivity::class.java)
+                    startActivity(intentToFinish)
+
                 }
             }
 
