@@ -69,7 +69,10 @@ object ConstantsData {
             )
         exerciseList.add(tricepDipOnChair)
 
-        val plank = ExerciseModel(8, "Plank", R.drawable.ic_plank, false, false)
+        val plank = ExerciseModel(8, "Plank",
+            R.drawable.ic_plank,
+            false,
+            false)
         exerciseList.add(plank)
 
         val highKneesRunningInPlace =

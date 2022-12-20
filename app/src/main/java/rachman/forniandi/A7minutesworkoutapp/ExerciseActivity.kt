@@ -1,5 +1,7 @@
 package rachman.forniandi.A7minutesworkoutapp
 
+import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -7,6 +9,7 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import rachman.forniandi.A7minutesworkoutapp.databinding.ActivityExerciseBinding
 import java.util.*
 import kotlin.collections.ArrayList
@@ -23,6 +26,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var exerciseList:ArrayList<ExerciseModel>? = null
     private var currentExercisePosition = -1
     private var tts:TextToSpeech? =null
+    private var player:MediaPlayer?= null
+    private var exerciseAdapter:ExerciseStatusAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +66,28 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         binding?.tvUpcomingExerciseName?.text =
             exerciseList!![currentExercisePosition+1].getName()
 
-        setRestProgressBar()
+        setRestView()
+        setupExerciseStatus()
+    }
+
+    private fun setupExerciseStatus(){
+        /*binding?.listNumberStatus?.layoutManager = LinearLayoutManager(
+            this,LinearLayoutManager.HORIZONTAL,false)*/
+        exerciseAdapter = ExerciseStatusAdapter(exerciseList!!)
+        binding?.listNumberStatus?.adapter = exerciseAdapter
+
     }
 
     private fun setupExerciseView(){
+
+        try {
+            val soundURI = Uri.parse("android.resource://eu.tutorials.a7_minutesworkoutapp/" + R.raw.press_start)
+            player = MediaPlayer.create(this,soundURI)
+            player?.isLooping
+            player?.start()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
         binding?.flRestView?.visibility = View.INVISIBLE
         binding?.tvTitle?.visibility= View.INVISIBLE
         binding?.tvExerciseName?.visibility = View.VISIBLE
@@ -111,7 +134,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }.start()
     }
 
-    private fun setRestProgressBar(){
+    private fun setRestView(){
         binding?.pg1?.progress = restProgress
 
         restTimer = object :CountDownTimer(10000,1000){
@@ -147,6 +170,10 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if (tts != null){
             tts?.stop()
             tts?.shutdown()
+        }
+
+        if (player != null){
+            player?.stop()
         }
         binding = null
     }
