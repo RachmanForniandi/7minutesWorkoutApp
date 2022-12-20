@@ -1,5 +1,6 @@
 package rachman.forniandi.A7minutesworkoutapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import rachman.forniandi.A7minutesworkoutapp.databinding.ActivityExerciseBinding
+import rachman.forniandi.A7minutesworkoutapp.databinding.DialogCustomBackConfirmationBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -45,7 +47,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         tts = TextToSpeech(this,this)
 
         binding?.tbExercise?.setNavigationOnClickListener {
-            onBackPressed()
+            showDialogForBackButton()
         }
 
         //binding?.flProgressBar?.visibility = View.INVISIBLE
@@ -69,6 +71,25 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         setRestView()
         setupExerciseStatus()
+    }
+
+    override fun onBackPressed() {
+        showDialogForBackButton()
+    }
+
+    private fun showDialogForBackButton(){
+        val customDialog = Dialog(this)
+        val dialogBinding = DialogCustomBackConfirmationBinding.inflate(layoutInflater)
+        customDialog.setContentView(dialogBinding.root)
+        customDialog.setCanceledOnTouchOutside(false)
+        dialogBinding.optionYes.setOnClickListener {
+            this@ExerciseActivity.finish()
+            customDialog.dismiss()
+        }
+        dialogBinding.optionNo.setOnClickListener {
+            customDialog.dismiss()
+        }
+        customDialog.show()
     }
 
     private fun setupExerciseStatus(){
