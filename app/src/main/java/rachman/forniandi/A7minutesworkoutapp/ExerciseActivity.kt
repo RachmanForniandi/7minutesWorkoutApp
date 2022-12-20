@@ -116,13 +116,16 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 exerciseProgress++
                 binding?.pg2?.progress = 30 - exerciseProgress
                 binding?.tvTimerExercise?.text = (30 - exerciseProgress).toString()
-
             }
 
             override fun onFinish() {
                 /*Toast.makeText(this@ExerciseActivity,"30 seconds are over.Let's rest !!",
                     Toast.LENGTH_SHORT).show()
 */
+                exerciseList!![currentExercisePosition].setIsSelected(false)
+                exerciseList!![currentExercisePosition].setIsCompleted(true)
+                exerciseAdapter?.notifyDataSetChanged()
+
                 if (currentExercisePosition < exerciseList!!.size -1){
                     setupRestView()
                 }else{
@@ -149,6 +152,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 /*Toast.makeText(this@ExerciseActivity,"Here now we will start the exercise !!",
                     Toast.LENGTH_SHORT).show()*/
                 currentExercisePosition++
+
+                //exerciseList!![currentExercisePosition].setIsSelected(false)
+                exerciseList!![currentExercisePosition].setIsSelected(true)
+                exerciseAdapter?.notifyDataSetChanged()
+
                 setupExerciseView()
             }
 
